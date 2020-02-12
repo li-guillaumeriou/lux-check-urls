@@ -1,0 +1,2 @@
+- Installer `npm i`
+- Exécuter `npx wdio && open report.csv`
