@@ -31,7 +31,7 @@ const ANNNONCES = [
 
 const url = require('url');
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
-
+const assert = require('assert');
 const csvWriter = createCsvWriter({
   path: 'report.csv',
   header: [
@@ -103,5 +103,18 @@ describe('Url should be well translated for each language', () => {
     csvWriter
       .writeRecords(test_results)
       .then(() => console.log('The CSV file was written successfully'));
+
+    let test_ko = test_results.filter(item => {
+      if (item.result === 'KO') {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    console.log(`Total tests run : ${test_results.length}`);
+    assert(
+      test_ko.length === 0,
+      `${test_ko.length} error${test_ko.length > 1 ? 's' : ''} found in report`
+    );
   });
 });
