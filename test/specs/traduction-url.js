@@ -72,8 +72,13 @@ describe('Url should be well translated for each language', () => {
         // Affichage du bloc langue
         $('span.activeLangContainer').click();
 
+        let flag_lang = $(`img[alt=${lang}]`);
+        browser.waitUntil(() => {
+          return flag_lang.isDisplayed() === true;
+        });
+
         // Sélection de la langue
-        $(`img[alt=${lang}]`).click();
+        flag_lang.click();
 
         // Attente rechargement
         browser.waitUntil(() => {
@@ -105,13 +110,9 @@ describe('Url should be well translated for each language', () => {
       .then(() => console.log('The CSV file was written successfully'));
 
     let test_ko = test_results.filter(item => {
-      if (item.result === 'KO') {
-        return true;
-      } else {
-        return false;
-      }
+      return item.result === 'KO';
     });
-    console.log(`Total tests run : ${test_results.length}`);
+    console.log(`Total test count : ${test_results.length}`);
     assert(
       test_ko.length === 0,
       `${test_ko.length} error${test_ko.length > 1 ? 's' : ''} found in report`
